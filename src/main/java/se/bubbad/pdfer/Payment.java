@@ -11,7 +11,7 @@ public class Payment {
     private String message;
     private String date;
 
-    private final String spaceBetweenDigits = "   ";
+    private final String spaceBetweenDigits = "  ";
 
     public Payment(String name, String payment, String paymentReceiverName, String paymentReceiverAccount, String message, String date) {
         this.name = name;
@@ -48,6 +48,10 @@ public class Payment {
         return getNumberString(getWholeKronorFromPayment());
     }
 
+    public String getPayment() {
+        return getNumberString(payment);
+    }
+
     private String getWholeKronorFromPayment() {
         return payment.split("\\.")[0];
     }
@@ -57,7 +61,7 @@ public class Payment {
     }
 
     public String getPaymentReceiverAccount() {
-        return paymentReceiverAccount;
+        return getNumberString(paymentReceiverAccount);
     }
 
 
@@ -66,20 +70,19 @@ public class Payment {
     }
 
     private String getNumberString(String numbers) {
-        String reversedNumbers = new StringBuilder(numbers).reverse().toString();
-        String[] individualNumbers = reversedNumbers.split("");
+        String[] individualNumbers = numbers.split("");
+        String kronor = "";
 
-        String kronorReversed = "";
         for (int i = 1; i < individualNumbers.length; i++) {
             String number = individualNumbers[i];
-            String spaces = spaceBetweenDigits;
-
-            if(i == 4 || i == 7) {
-                spaces += "   ";
+            if(number.equals(".")) {
+                continue;
             }
-            kronorReversed += spaces + number;
+
+            String spaces = spaceBetweenDigits;
+            kronor += spaces + number;
         }
 
-        return new StringBuilder(kronorReversed).reverse().toString();
+        return kronor;
     }
 }

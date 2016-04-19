@@ -9,9 +9,11 @@ import java.util.ArrayList;
 public class AviConstructor
 {
     private static String confFile      = "avier.conf";
-    private static String blanketFile   = "blankett.pdf";
+    private static String blanketFile   = "template.pdf";
     private static String outputFile    = "ifylld.pdf";
     private static String announcesFile = "avier.txt";
+
+    private static int paymentsPerPage = 3;
 
     public static void main( String[] args ) throws IOException, DocumentException {
 
@@ -20,13 +22,18 @@ public class AviConstructor
 
         PdfHandler pdfHandler = new PdfHandler(blanketFile, outputFile);
 
-        Payment announce = announces.get(0);
 
-        pdfHandler.manipulatePdf("Message", announce.getMessage() + " " + announce.getName() + ". Skickat " + announce.getDate());
-        pdfHandler.manipulatePdf("Kronor", announce.getPaymentKronor());
-        pdfHandler.manipulatePdf("Cents", announce.getPaymentCents());
-        pdfHandler.manipulatePdf("ReceiverName", announce.getPaymentReceiverName());
-        pdfHandler.manipulatePdf("ReceiverAccount", announce.getPaymentReceiverAccount());
+        for (int i = 0; i < announces.size(); i++) {
+            Payment payment = announces.get(i);
+
+            int paymentIndex = (i % paymentsPerPage) + 1;
+
+            pdfHandler.manipulatePdf("Rent" + paymentIndex, payment.getPayment());
+            pdfHandler.manipulatePdf("ReceiverName", payment.getPaymentReceiverName());
+            pdfHandler.manipulatePdf("ReceiverAccount", payment.getPaymentReceiverAccount());
+
+        }
+
 
         pdfHandler.close();
     }
