@@ -16,6 +16,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Main class for the project. Loads a GUI with the option to
+ * generate a PDF of all the payments in a certain payments file.
+ */
 public class AviConstructor
 {
     private static String confFile      = "config.txt";
@@ -32,10 +36,14 @@ public class AviConstructor
 
     private static JFrame frame;
 
+
     public static void main( String[] args ) throws Exception {
         createFrame();
     }
 
+    /**
+     * Creates the Frame
+     */
     public static void createFrame() {
         frame = new JFrame("Avier");
         frame.setSize(300, 300);
@@ -82,6 +90,12 @@ public class AviConstructor
 
     }
 
+    /**
+     * Creates PDFs and merges them into one final, which contains
+     * all plus- and bankgiro payments.
+     * @throws IOException
+     * @throws DocumentException
+     */
     public static void generatePdf() throws IOException, DocumentException {
         Config config = ConfigReader.readConfFile(confFile);
 
@@ -97,6 +111,13 @@ public class AviConstructor
         concatenatePdfs(pdfs, new File(outputFile));
     }
 
+    /**
+     * Adds {@code bankgiros} as bankgiros.
+     * @param bankgiros A list of payments to be sent as bankgiro.
+     * @param pdfs The current list of PDFs created
+     * @throws DocumentException
+     * @throws IOException
+     */
     private static void addBankgiros(ArrayList<Payment> bankgiros, ArrayList<File> pdfs) throws DocumentException, IOException {
         PdfHandler pdfHandler = new PdfHandler(bankgiroForm, bankgiroTempFile);
 
@@ -110,7 +131,7 @@ public class AviConstructor
             pdfHandler.manipulatePdf("ReceiverName", payment.getPaymentReceiverName());
             pdfHandler.manipulatePdf("ReceiverAccount", payment.getPaymentReceiverAccount("  "));
 
-            if(((i + 1) % 3 ) == 0) {
+            if(((i + 1) % paymentsPerPage ) == 0) {
                 pdfHandler.close();
 
                 pdfs.add(new File(bankgiroTempFile));
@@ -128,6 +149,13 @@ public class AviConstructor
         }
     }
 
+    /**
+     * Adds {@code plusgiros} as bankgiros.
+     * @param plusgiros A list of payments to be sent as bankgiro.
+     * @param pdfs The current list of PDFs created
+     * @throws DocumentException
+     * @throws IOException
+     */
     private static void addPlusgiros(ArrayList<Payment> plusgiros, ArrayList<File> pdfs) throws DocumentException, IOException {
         PdfHandler pdfHandler = new PdfHandler(plusgiroForm, plusgiroTempFile);
 
@@ -140,7 +168,7 @@ public class AviConstructor
             pdfHandler.manipulatePdf("ReceiverName", payment.getPaymentReceiverName());
             pdfHandler.manipulatePdf("ReceiverAccount", payment.getPaymentReceiverAccount(""));
 
-            if(((i + 1) % 3 ) == 0) {
+            if(((i + 1) % paymentsPerPage ) == 0) {
                 pdfHandler.close();
 
                 pdfs.add(new File(plusgiroTempFile));
@@ -158,6 +186,14 @@ public class AviConstructor
         }
     }
 
+    /**
+     * Merges all pds in {@code listOfPdfFiles} into one and saves it in to {@code outputFile}
+     * After the merge, all pdfs in {@code listOfPdfFiles} will be removed.
+     * @param listOfPdfFiles List of all created pfs
+     * @param outputFile The final pdf
+     * @throws IOException
+     * @throws DocumentException
+     */
     public static void concatenatePdfs(List<File> listOfPdfFiles, File outputFile) throws IOException, DocumentException {
         Document document = new Document();
         FileOutputStream outputStream = new FileOutputStream(outputFile);
@@ -175,6 +211,10 @@ public class AviConstructor
         }
     }
 
+    /**
+     * Returns the next month as a String in Swedish
+     * @return
+     */
     public static String getMonth() {
         java.util.Date date= new Date();
         Calendar cal = Calendar.getInstance();
