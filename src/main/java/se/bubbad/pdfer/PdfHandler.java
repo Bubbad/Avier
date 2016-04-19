@@ -2,6 +2,7 @@ package se.bubbad.pdfer;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
@@ -16,12 +17,14 @@ public class PdfHandler {
     private PdfReader reader;
     private PdfStamper stamper;
     private AcroFields fields;
+    private String dest;
 
     public PdfHandler(String src, String dest) {
         try {
             reader = new PdfReader(src);
             stamper = new PdfStamper(reader, new FileOutputStream(dest));
             fields = stamper.getAcroFields();
+            this.dest = dest;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -39,6 +42,9 @@ public class PdfHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void printPdf() {
 
     }
 }
