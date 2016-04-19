@@ -52,7 +52,6 @@
           <target>1.7</target>
         </configuration>
       </plugin>
-
       <plugin>
         <!-- Build an executable JAR -->
         <groupId>org.apache.maven.plugins</groupId>

@@ -6,12 +6,12 @@ package se.bubbad.pdfer;
 public class Config {
 
     public String receiverName;
-    public String receiverAccount;
-    public String printer;
+    public String receiverPlusgiro;
+    public String receiverBankgiro;
 
-    public Config(String printer, String receiverAccount, String receiverName) {
-        this.printer = printer;
-        this.receiverAccount = receiverAccount;
+    public Config(String receiverPlusgiro, String receiverBankgiro, String receiverName) {
+        this.receiverPlusgiro = receiverPlusgiro;
+        this.receiverBankgiro = receiverBankgiro;
         this.receiverName = receiverName;
     }
 

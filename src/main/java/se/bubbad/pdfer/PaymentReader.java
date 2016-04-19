@@ -11,16 +11,16 @@ import java.util.Date;
 public class PaymentReader {
 
     private Config config;
-    private String message = "Hyra ";
     private String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
     public PaymentReader(Config config) {
         this.config = config;
     }
 
-    public ArrayList<Payment> readPaymentAnnounces(String announceFile) throws IOException {
+    public ArrayList<Payment> readPaymentAnnounces(String announceFile, boolean isPlusgiro) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(announceFile));
-        ArrayList<Payment> announces = new ArrayList<Payment>();
+        ArrayList<Payment> plusgiro = new ArrayList<Payment>();
+        ArrayList<Payment> bankgiro = new ArrayList<Payment>();
 
         String nextLine = reader.readLine();
         while(nextLine != null) {
@@ -30,15 +30,23 @@ public class PaymentReader {
             }
 
             int paymentStartIndex = nextLine.lastIndexOf(" ");
-            String name = nextLine.substring(0, paymentStartIndex);
+            int nameStartIndex = nextLine.indexOf(" ");
+            String type = nextLine.substring(0, nameStartIndex);
+            String name = nextLine.substring(nameStartIndex, paymentStartIndex);
             String payment = nextLine.substring(paymentStartIndex);
 
-            Payment announce = new Payment(name, payment, config.receiverName, config.receiverAccount, message, date);
-            announces.add(announce);
+            if(type.equals("pg") && isPlusgiro) {
+                Payment announce = new Payment(name, payment, config.receiverName, config.receiverPlusgiro, date);
+                plusgiro.add(announce);
+            } else if (type.equals("bg") && !isPlusgiro){
+                Payment announce = new Payment(name, payment, config.receiverName, config.receiverBankgiro, date);
+                bankgiro.add(announce);
+            }
+
             nextLine = reader.readLine();
         }
 
-        return announces;
+        return isPlusgiro ? plusgiro : bankgiro;
     }
 
 

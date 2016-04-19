@@ -17,9 +17,9 @@ public class ConfigReader {
 
 
             String receiverName = prop.getProperty("name");
-            String receiverAccount = prop.getProperty("account");
-            String printer = prop.getProperty("printer");
-            return new Config(printer, receiverAccount, receiverName);
+            String receiverPlusgiro = prop.getProperty("plusgiro");
+            String receiverBankgiro = prop.getProperty("bankgiro");
+            return new Config(receiverPlusgiro, receiverBankgiro, receiverName);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -8,17 +8,13 @@ public class Payment {
     private String payment;
     private String paymentReceiverName;
     private String paymentReceiverAccount;
-    private String message;
     private String date;
 
-    private final String spaceBetweenDigits = "  ";
-
-    public Payment(String name, String payment, String paymentReceiverName, String paymentReceiverAccount, String message, String date) {
+    public Payment(String name, String payment, String paymentReceiverName, String paymentReceiverAccount, String date) {
         this.name = name;
         this.payment = payment;
         this.paymentReceiverName = paymentReceiverName;
         this.paymentReceiverAccount = paymentReceiverAccount;
-        this.message = message;
         this.date = date;
     }
 
@@ -30,46 +26,24 @@ public class Payment {
         return date;
     }
 
-
-    public String getPaymentCents() {
-        return getNumberString(getCentsFromPayment());
-    }
-
-    private String getCentsFromPayment() {
-        String[] cents = payment.split("\\.");
-        if(cents.length < 2) {
-            return "00";
-        } else {
-            return cents[1];
-        }
-    }
-
-    public String getPaymentKronor() {
-        return getNumberString(getWholeKronorFromPayment());
-    }
-
     public String getPayment() {
-        return getNumberString(payment);
+        return payment;
     }
 
-    private String getWholeKronorFromPayment() {
-        return payment.split("\\.")[0];
+    public String getPaymentWithSquares(String spaceBetweenDigits) {
+        return getNumberString(payment, spaceBetweenDigits);
     }
 
     public String getPaymentReceiverName() {
         return paymentReceiverName;
     }
 
-    public String getPaymentReceiverAccount() {
-        return getNumberString(paymentReceiverAccount);
+    public String getPaymentReceiverAccount(String spaceBetweenDigits ) {
+        return getNumberString(paymentReceiverAccount, spaceBetweenDigits);
     }
 
 
-    public String getMessage() {
-        return message;
-    }
-
-    private String getNumberString(String numbers) {
+    private String getNumberString(String numbers, String spaceBetweenDigits ) {
         String[] individualNumbers = numbers.split("");
         String kronor = "";
 

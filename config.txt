@@ -1,0 +1,3 @@
+name=Lars-Erik Nilsson
+bankgiro=337-9856
+plusgiro=992 86 18-6
