@@ -1,7 +1,5 @@
 package se.bubbad.pdfer;
 
-import com.itextpdf.text.DocumentException;
-
 import javax.print.*;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
@@ -20,8 +18,9 @@ public class AviConstructor
     private static int paymentsPerPage = 3;
 
     public static void main( String[] args ) throws Exception {
+        Config config = ConfigReader.readConfFile(confFile);
 
-        PaymentReader announceReader = new PaymentReader(confFile);
+        PaymentReader announceReader = new PaymentReader(config);
         ArrayList<Payment> announces = announceReader.readPaymentAnnounces(announcesFile);
 
         PdfHandler pdfHandler = new PdfHandler(blanketFile, outputFile);
@@ -39,24 +38,46 @@ public class AviConstructor
             if(((i + 1) % 3 ) == 0) {
                 pdfHandler.close();
 
-                FileInputStream fis = new FileInputStream(outputFile);
+                printPdf(config);
 
-                PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
-                DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
-
-                Doc pdfDoc = new SimpleDoc(fis, flavor, null);
-
-                PrintService printService[]= PrintServiceLookup.lookupPrintServices(flavor, pras);
-                DocPrintJob printJob = printService[0].createPrintJob();
-                printJob.print(pdfDoc, new HashPrintRequestAttributeSet());
-                fis.close();
-
-                outputFile = i + outputFile;
                 pdfHandler = new PdfHandler(blanketFile, outputFile);
             }
         }
 
 
         pdfHandler.close();
+
+        if(announces.size() % paymentsPerPage != 0) {
+            printPdf(config);
+        }
+    }
+
+    private static void printPdf(Config config) throws PrintException, IOException {
+        FileInputStream fis = new FileInputStream(outputFile);
+        PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
+        DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
+        Doc pdfDoc = new SimpleDoc(fis, flavor, null);
+
+        PrintService printService[]= PrintServiceLookup.lookupPrintServices(flavor, pras);
+        int printerIndex = getPrinterIndex(printService, config.printer);
+
+        if(printerIndex == -1) {
+            System.out.println("Couldnt find printer.");
+            System.exit(0);
+        }
+
+        DocPrintJob printJob = printService[printerIndex].createPrintJob();
+        printJob.print(pdfDoc, new HashPrintRequestAttributeSet());
+        fis.close();
+    }
+
+    private static int getPrinterIndex(PrintService[] printService, String printer) {
+        for (int i = 0; i < printService.length; i++) {
+            if(printService[i].getName().contains(printer)) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }

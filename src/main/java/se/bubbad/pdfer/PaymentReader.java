@@ -4,34 +4,18 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Properties;
 
 /**
  * Created by Johan on 2016-04-18.
  */
 public class PaymentReader {
 
-    private String receiverName;
-    private String receiverAccount;
+    private Config config;
     private String message = "Hyra ";
     private String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-    public PaymentReader(String confFileName) {
-        readConfFile(confFileName);
-    }
-
-    private void readConfFile(String confFileName) {
-        try {
-            InputStream in = new FileInputStream(confFileName);
-            Properties prop = new Properties();
-            prop.load(in);
-
-            receiverName = prop.getProperty("name");
-            receiverAccount = prop.getProperty("account");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public PaymentReader(Config config) {
+        this.config = config;
     }
 
     public ArrayList<Payment> readPaymentAnnounces(String announceFile) throws IOException {
@@ -49,7 +33,7 @@ public class PaymentReader {
             String name = nextLine.substring(0, paymentStartIndex);
             String payment = nextLine.substring(paymentStartIndex);
 
-            Payment announce = new Payment(name, payment, receiverName, receiverAccount, message, date);
+            Payment announce = new Payment(name, payment, config.receiverName, config.receiverAccount, message, date);
             announces.add(announce);
             nextLine = reader.readLine();
         }
