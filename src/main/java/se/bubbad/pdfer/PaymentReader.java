@@ -30,7 +30,7 @@ public class PaymentReader {
      */
     public ArrayList<Payment> readPaymentAnnounces(String announceFile, boolean isPlusgiro) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(announceFile));
-        ArrayList<Payment> payments = new ArrayList<Payment>();
+        ArrayList<Payment> payments = new ArrayList<>();
 
         String nextLine = reader.readLine();
         while(nextLine != null) {

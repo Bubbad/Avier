@@ -1,7 +1,13 @@
-#Namn Hyra
-Generated Name1 1234.50
-Generated Long Name1 678.90
-Other names 124923
-More names 15235.25
-Hahahh enene 2352.20
+#Type Name rent
+#house1
+bg Adam Svensson 124124
+pg John Fors 4500
+bg Adam Svensson 3000
+bg Något namn 2000
+bg Något namn 5000
+
+#house2
+pg Test Name 1000
+pg Test Name 1000
+
 

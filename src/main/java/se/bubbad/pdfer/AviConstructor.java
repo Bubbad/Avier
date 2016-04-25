@@ -24,10 +24,10 @@ public class AviConstructor
 {
     private static String confFile      = "config.txt";
     private static String plusgiroForm   = "templatepg.pdf";
-    private static String plusgiroTempFile   = "ifylld_pg.pdf";
+    private static String plusgiroTempFile   = "tmp_pg.pdf";
 
     private static String bankgiroForm   = "templatebg.pdf";
-    private static String bankgiroTempFile   = "ifylld_bg.pdf";
+    private static String bankgiroTempFile   = "tmp_bg.pdf";
     private static String announcesFile = "avier.txt";
 
     private static String outputFile = "Skriv-ut-mig.pdf";
@@ -61,7 +61,7 @@ public class AviConstructor
 
         final JTextArea textArea = new JTextArea();
         textArea.setSize(250,250);
-        textArea.append("Klicka på create pdf\n");
+        textArea.append("Click create PDF button to generate a new pdf\n");
         textArea.setLineWrap(true);
         textArea.setBorder(BorderFactory.createLineBorder(Color.black));
 
@@ -73,11 +73,11 @@ public class AviConstructor
                     generatePdf();
                     textArea.append("Complete!\n");
                 } catch (IOException e1) {
-                    textArea.append("Något fel med en fil. Stäng av Skriv-ut-mig.pdf om ni har den öppen.\n");
+                    textArea.append("Error with a file. Please close " + outputFile + " if its open.\n");
 
                     e1.printStackTrace();
                 } catch (DocumentException e1) {
-                    textArea.append("Något fel med en pdf. Ring johan :)\n");
+                    textArea.append("Something went wrong with a PDF\n");
                     e1.printStackTrace();
                 }
             }
