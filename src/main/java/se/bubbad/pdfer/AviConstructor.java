@@ -126,10 +126,9 @@ public class AviConstructor
             int paymentIndex = (i % paymentsPerPage) + 1;
 
             pdfHandler.manipulatePdf("Month", getMonth());
-            pdfHandler.manipulatePdf("Rent" + paymentIndex + "Square", payment.getPaymentWithSquares("  "));
             pdfHandler.manipulatePdf("Rent" + paymentIndex, payment.getPayment());
             pdfHandler.manipulatePdf("ReceiverName", payment.getPaymentReceiverName());
-            pdfHandler.manipulatePdf("ReceiverAccount", payment.getPaymentReceiverAccount("  "));
+            pdfHandler.manipulatePdf("ReceiverAccount", payment.getPaymentReceiverAccount(""));
 
             if(((i + 1) % paymentsPerPage ) == 0) {
                 pdfHandler.close();
@@ -164,7 +163,7 @@ public class AviConstructor
             int paymentIndex = (i % paymentsPerPage) + 1;
 
             pdfHandler.manipulatePdf("Month", getMonth());
-            pdfHandler.manipulatePdf("Rent" + paymentIndex, payment.getPaymentWithSquares("    "));
+            pdfHandler.manipulatePdf("Rent" + paymentIndex, payment.getPaymentWithSquares(""));
             pdfHandler.manipulatePdf("ReceiverName", payment.getPaymentReceiverName());
             pdfHandler.manipulatePdf("ReceiverAccount", payment.getPaymentReceiverAccount(""));
 
@@ -220,10 +219,10 @@ public class AviConstructor
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.MONTH, 1);
-        int month = cal.get(Calendar.MONTH);
+        String year = cal.get(Calendar.YEAR) + "";
+        String month = cal.get(Calendar.MONTH) + "";
 
-        String[] monthNames = {"Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"};
-        return monthNames[month];
+        return year + month;
     }
 
 }
