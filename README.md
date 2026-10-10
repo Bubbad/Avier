@@ -18,3 +18,8 @@ Using Maven, run mvn clean package in the folder and it will generate a .jar fil
 Run the jar file to start the GUI. In the GUI (disclaimer: it's really horrible),
 press the "create pdf" button. This generates a .pdf file in the folder. Print, cut the
 the dotted lines and send to your payers.
+
+### Recreating new templates
+The original template is taken from https://privatgirot.se/hem/blanketter/
+The layout of the template is then modified using https://www.canva.com
+Finally, the form inputs are added using https://tools.pdf24.org
