@@ -47,7 +47,7 @@ public class Payment {
         String[] individualNumbers = numbers.split("");
         String kronor = "";
 
-        for (int i = 1; i < individualNumbers.length; i++) {
+        for (int i = 0; i < individualNumbers.length; i++) {
             String number = individualNumbers[i];
             if(number.equals(".")) {
                 continue;

@@ -218,7 +218,7 @@ public class AviConstructor
         java.util.Date date= new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        cal.add(Calendar.MONTH, 1);
+        cal.add(Calendar.MONTH, 2);
         String year = cal.get(Calendar.YEAR) + "";
         String month = cal.get(Calendar.MONTH) + "";
 
