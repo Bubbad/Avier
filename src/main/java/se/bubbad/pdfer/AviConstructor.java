@@ -12,8 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -215,14 +213,8 @@ public class AviConstructor
      * @return
      */
     public static String getMonth() {
-        java.util.Date date= new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.MONTH, 2);
-        String year = cal.get(Calendar.YEAR) + "";
-        String month = cal.get(Calendar.MONTH) + "";
-
-        return year + month;
+        return java.time.YearMonth.now().plusMonths(1)
+                .format(java.time.format.DateTimeFormatter.ofPattern("yyyyMM"));
     }
 
 }
